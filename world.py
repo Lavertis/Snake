@@ -1,3 +1,4 @@
+from copy import deepcopy
 import os
 from snake import *
 
@@ -16,13 +17,13 @@ class World:
         self.clock = pygame.time.Clock()
         self.fps = 0.0
         self.fps_font = pygame.font.SysFont('Comic Sans MS', 10)
-        self.snake_speed = 5
+        self.snake_speed = 10
         self.snake_elements = []
         self.pushed_keys = []
         self.element_size = 30
-        self.snake_elements.append(SnakeElement(self.screen, pygame.Color('red'), 27, 400, 400))
-        self.snake_elements.append(SnakeElement(self.screen, pygame.Color('red'), 27, 400, 430))
-        self.snake_elements.append(SnakeElement(self.screen, pygame.Color('red'), 27, 400, 460))
+        self.snake_elements.append(SnakeElement(pygame.Color('red'), 27, 400, 400))
+        self.snake_elements.append(SnakeElement(pygame.Color('red'), 27, 400, 430))
+        self.snake_elements.append(SnakeElement(pygame.Color('red'), 27, 400, 460))
 
     def check_for_user_interaction(self):
         for event in pygame.event.get():
@@ -91,7 +92,7 @@ class World:
                     element.velocity.x = self.snake_speed
 
     def add_next_element(self):
-        self.snake_elements.append(self.snake_elements[-1].get_copy())
+        self.snake_elements.append(deepcopy(self.snake_elements[-1]))
         tail = self.snake_elements[-1]
         if tail.velocity.x > 0:
             self.snake_elements[-1].position -= Vector2D(self.element_size, 0)
@@ -104,7 +105,7 @@ class World:
         self.snake_elements[-1].colour = pygame.Color('yellow')
 
     def display_fps(self):
-        self.clock.tick(15)
+        self.clock.tick(10)
         self.fps = self.clock.get_fps()
         if self.fps == math.inf:
             text_surface = self.fps_font.render('FPS: inf', True, (120, 120, 120))
@@ -123,6 +124,6 @@ class World:
     def draw_snake_elements(self):
         self.screen.fill((0, 0, 0))
         for el in reversed(self.snake_elements):
-            pygame.draw.rect(el.surface, el.colour, (el.position.x, el.position.y, el.size, el.size))
+            pygame.draw.rect(self.screen, el.colour, (el.position.x, el.position.y, el.size, el.size))
         self.display_fps()
         pygame.display.flip()
