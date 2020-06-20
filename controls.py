@@ -1,4 +1,61 @@
+import pygame
+from vector import *
 from snake import *
+
+
+def check_for_direction_change(world):
+    if world.pushed_keys and world.snake_elements[0].position % 20 == 0:
+        event = world.pushed_keys.pop(0)
+        if event.key == pygame.K_UP:
+            go_up(world)
+        elif event.key == pygame.K_DOWN:
+            go_down(world)
+        elif event.key == pygame.K_RIGHT:
+            go_right(world)
+        elif event.key == pygame.K_LEFT:
+            go_left(world)
+        elif event.key == pygame.K_a:
+            world.add_next_element()
+
+
+def go_up(world):
+    element_iterator = iter(world.snake_elements)
+    head = next(element_iterator)
+    if head.velocity.y == 0:
+        change_position_cords = head.position
+        head.velocity = Vector2D(0, -world.snake_speed)
+        for element in element_iterator:
+            element.moves_to_make.append(Move(change_position_cords, Vector2D(0, -world.snake_speed)))
+
+
+def go_down(world):
+    element_iterator = iter(world.snake_elements)
+    head = next(element_iterator)
+    if head.velocity.y == 0:
+        change_position_cords = head.position
+        head.velocity = Vector2D(0, world.snake_speed)
+        for element in element_iterator:
+            element.moves_to_make.append(Move(change_position_cords, Vector2D(0, world.snake_speed)))
+
+
+def go_right(world):
+    element_iterator = iter(world.snake_elements)
+    head = next(element_iterator)
+    if head.velocity.x == 0:
+        change_position_cords = head.position
+        head.velocity = Vector2D(world.snake_speed, 0)
+        for element in element_iterator:
+            element.moves_to_make.append(Move(change_position_cords, Vector2D(world.snake_speed, 0)))
+
+
+def go_left(world):
+    element_iterator = iter(world.snake_elements)
+    head = next(element_iterator)
+    if head.velocity.x == 0:
+        change_position_cords = head.position
+        head.velocity = Vector2D(-world.snake_speed, 0)
+        for element in element_iterator:
+            element.moves_to_make.append(Move(change_position_cords, Vector2D(-world.snake_speed, 0)))
 
 
 def check_for_user_interaction(world):
@@ -13,70 +70,3 @@ def check_for_user_interaction(world):
         if event.type == pygame.QUIT:
             import sys
             sys.exit()
-
-
-def check_for_direction_change(world):
-    if world.pushed_keys:
-        event = world.pushed_keys[-1]
-        world.pushed_keys.clear()
-    else:
-        return
-
-    if event.key == world.snake_elements[0].current_direction_key:
-        world.add_next_element()
-        return
-    elif event.key == world.snake_elements[0].opposite_direction_key:
-        return
-
-    if event.key == pygame.K_UP:
-        go_up(world)
-    elif event.key == pygame.K_DOWN:
-        go_down(world)
-    elif event.key == pygame.K_RIGHT:
-        go_right(world)
-    elif event.key == pygame.K_LEFT:
-        go_left(world)
-
-
-def go_up(world):
-    for element in reversed(world.snake_elements):
-        element.current_direction_key = pygame.K_UP
-        element.opposite_direction_key = pygame.K_DOWN
-        if not element == world.snake_elements[0]:
-            element.moves_to_make.append(Move(world.snake_elements[0].position, Vector2D(0, -world.snake_speed)))
-        else:
-            element.velocity *= 0
-            element.velocity.y = -world.snake_speed
-
-
-def go_down(world):
-    for element in reversed(world.snake_elements):
-        element.current_direction_key = pygame.K_DOWN
-        element.opposite_direction_key = pygame.K_UP
-        if not element == world.snake_elements[0]:
-            element.moves_to_make.append(Move(world.snake_elements[0].position, Vector2D(0, world.snake_speed)))
-        else:
-            element.velocity *= 0
-            element.velocity.y = world.snake_speed
-
-
-def go_right(world):
-    for element in reversed(world.snake_elements):
-        element.current_direction_key = pygame.K_RIGHT
-        element.opposite_direction_key = pygame.K_LEFT
-        if not element == world.snake_elements[0]:
-            element.moves_to_make.append(Move(world.snake_elements[0].position, Vector2D(world.snake_speed, 0)))
-        else:
-            element.velocity *= 0
-            element.velocity.x = world.snake_speed
-
-
-def go_left(world):
-    for element in reversed(world.snake_elements):
-        element.current_direction_key = pygame.K_LEFT
-        element.opposite_direction_key = pygame.K_RIGHT
-        if not element == world.snake_elements[0]:
-            element.moves_to_make.append(Move(world.snake_elements[0].position, Vector2D(-world.snake_speed, 0)))
-        else:
-            element.velocity *= 0
-            element.velocity.x = -world.snake_speed

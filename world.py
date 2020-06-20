@@ -1,13 +1,9 @@
 from copy import deepcopy
-import os
 from controls import *
 
 
 class World:
     def __init__(self):
-        if os.name == 'nt':
-            import ctypes
-            ctypes.windll.shcore.SetProcessDpiAwareness(True)
         self.surface_height = 800
         self.surface_width = 800
         pygame.init()
@@ -15,12 +11,16 @@ class World:
         self.surface_size = (self.surface_width, self.surface_height)
         self.screen = pygame.display.set_mode(self.surface_size, pygame.RESIZABLE)
         self.clock = pygame.time.Clock()
-        self.fps = 0.0
+        self.fps = self.clock.get_fps()
         self.fps_font = pygame.font.SysFont('Comic Sans MS', 10)
-        self.snake_speed = 10
+        self.snake_speed = 2
         self.element_size = 20
         self.pushed_keys = []
-        self.snake_elements = [SnakeElement(pygame.Color('red'), 18, 400, 400)]
+        self.snake_elements = [SnakeElement(pygame.Color('red'), Vector2D(400, 400), Vector2D(0, -self.snake_speed))]
+        self.add_next_element()
+        self.add_next_element()
+        self.add_next_element()
+        self.add_next_element()
         self.add_next_element()
         self.add_next_element()
 
@@ -37,15 +37,6 @@ class World:
             tail.position += Vector2D(0, self.element_size)
         tail.colour = pygame.Color('red')
 
-    def display_fps(self):
-        self.clock.tick(10)
-        self.fps = self.clock.get_fps()
-        if self.fps == math.inf:
-            text_surface = self.fps_font.render('FPS: inf', True, (120, 120, 120))
-        else:
-            text_surface = self.fps_font.render('FPS: ' + str(round(self.fps)), True, (120, 120, 120))
-        self.screen.blit(text_surface, (2, 0))
-
     def move_snake_elements(self):
         for el in self.snake_elements:
             if el.moves_to_make:
@@ -57,6 +48,16 @@ class World:
     def draw_snake_elements(self):
         self.screen.fill((0, 0, 0))
         for el in reversed(self.snake_elements):
-            pygame.draw.rect(self.screen, el.colour, (el.position.x, el.position.y, el.size, el.size))
+            pygame.draw.rect(self.screen, el.colour,
+                             (el.position.x, el.position.y, self.element_size - 2, self.element_size - 2))
         self.display_fps()
         pygame.display.flip()
+
+    def display_fps(self):
+        self.clock.tick(60)
+        self.fps = self.clock.get_fps()
+        if self.fps == math.inf:
+            text_surface = self.fps_font.render('FPS: inf', True, (120, 120, 120))
+        else:
+            text_surface = self.fps_font.render('FPS: ' + str(round(self.fps)), True, (120, 120, 120))
+        self.screen.blit(text_surface, (2, 0))
