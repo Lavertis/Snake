@@ -7,23 +7,27 @@ class World:
     def __init__(self):
         pygame.init()
         pygame.display.set_caption('Snake')
-        self.surface_size = (800, 800)
-        self.screen = pygame.display.set_mode(self.surface_size, pygame.RESIZABLE)
+        surface_size = int(round(pygame.display.Info().current_h * 0.825, -1))
+        surface_size -= surface_size % 20
+        self.surface_size = (surface_size, surface_size)
+        self.screen = pygame.display.set_mode(self.surface_size)
         self.clock = pygame.time.Clock()
         self.fps = self.clock.get_fps()
         self.fps_font = pygame.font.SysFont('Comic Sans MS', 10)
-        self.snake_speed = 2
+        self.snake_colour = pygame.Color('red')
         self.element_size = 20
+        self.snake_speed = 2
         self.snake_elements = []
         self.pushed_keys = []
         self.reset_game()
 
     def reset_game(self):
-        center_x = self.surface_size[0] / 2
-        center_y = self.surface_size[1] / 2
+        center = self.surface_size[0] / 2
+        center_x = center_y = center - center % 20
         self.snake_elements.clear()
+        self.pushed_keys.clear()
         self.snake_elements.append(
-            SnakeElement(pygame.Color('red'), Vector2D(center_x, center_y), Vector2D(0, -self.snake_speed)))
+            SnakeElement(self.snake_colour, Vector2D(center_x, center_y), Vector2D(0, -self.snake_speed)))
         for _ in range(6):
             self.add_next_element()
 
@@ -40,7 +44,7 @@ class World:
             tail.position += Vector2D(0, self.element_size)
 
     def move_snake_elements(self):
-        if wall_collision(self.snake_elements[0], self.surface_size, self.element_size):
+        if wall_collision(self.snake_elements[0], self.surface_size[0], self.element_size):
             self.reset_game()
         for el in self.snake_elements:
             if el.moves_to_make:

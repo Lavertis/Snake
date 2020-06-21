@@ -16,7 +16,6 @@ def check_for_direction_change(world):
             go_left(world)
         elif event.key == pygame.K_a:
             world.add_next_element()
-        print(world.snake_elements[0].position)
 
 
 def go_up(world):
@@ -61,15 +60,13 @@ def go_left(world):
 
 def check_for_user_interaction(world):
     for event in pygame.event.get():
-        if event.type == pygame.KEYDOWN:
+        if event.type == pygame.KEYDOWN and len(world.pushed_keys) < 3:
             world.pushed_keys.append(event)
-        if event.type == pygame.VIDEORESIZE:
-            world.surface_size = event.size
-            event.w = round(event.w, -1)
-            event.h = round(event.h, -1)
-            world.surface_size = (event.w - event.w % 20, event.h - event.h % 20)
-            world.screen = pygame.display.set_mode(world.surface_size, pygame.RESIZABLE)
-            print(str(world.surface_size[0]) + 'x' + str(world.surface_size[1]))
         if event.type == pygame.QUIT:
             import sys
             sys.exit()
+        # if event.type == pygame.VIDEORESIZE:
+        #     surface_size = round(event.h, -1)
+        #     surface_size -= surface_size % 20
+        #     world.surface_size = (surface_size, surface_size)
+        #     world.screen = pygame.display.set_mode(world.surface_size, pygame.RESIZABLE)
