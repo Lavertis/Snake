@@ -8,7 +8,7 @@ class World:
     def __init__(self):
         pygame.init()
         pygame.display.set_caption('Snake')
-        surface_size = int(round(pygame.display.Info().current_h * 0.825, -1))
+        surface_size = int(round(pygame.display.Info().current_h * 0.8, -1))
         surface_size -= surface_size % 20
         self.surface_size = (surface_size, surface_size)
         self.screen = pygame.display.set_mode(self.surface_size)
@@ -37,6 +37,8 @@ class World:
         center_x = center_y = center - center % 20
         head = SnakeElement(self.snake_colour, Vector2D(center_x, center_y), Vector2D(0, -self.snake_speed))
         self.snake_elements.append(head)
+        for _ in range(2):
+            self.add_next_element()
         self.place_egg()
 
     def add_next_element(self):
@@ -57,8 +59,9 @@ class World:
         if element_collision(self.snake_elements):
             self.reset_game()
         if egg_picked(self.snake_elements[0], self.egg):
-            self.add_next_element()
             self.place_egg()
+            for _ in range(3):
+                self.add_next_element()
 
         for el in self.snake_elements:
             if el.moves_to_make:
