@@ -1,28 +1,31 @@
 from copy import deepcopy
 from controls import *
+from collision import *
 
 
 class World:
     def __init__(self):
-        self.surface_height = 800
-        self.surface_width = 800
         pygame.init()
         pygame.display.set_caption('Snake')
-        self.surface_size = (self.surface_width, self.surface_height)
+        self.surface_size = (800, 800)
         self.screen = pygame.display.set_mode(self.surface_size, pygame.RESIZABLE)
         self.clock = pygame.time.Clock()
         self.fps = self.clock.get_fps()
         self.fps_font = pygame.font.SysFont('Comic Sans MS', 10)
         self.snake_speed = 2
         self.element_size = 20
+        self.snake_elements = []
         self.pushed_keys = []
-        self.snake_elements = [SnakeElement(pygame.Color('red'), Vector2D(400, 400), Vector2D(0, -self.snake_speed))]
-        self.add_next_element()
-        self.add_next_element()
-        self.add_next_element()
-        self.add_next_element()
-        self.add_next_element()
-        self.add_next_element()
+        self.reset_game()
+
+    def reset_game(self):
+        center_x = self.surface_size[0] / 2
+        center_y = self.surface_size[1] / 2
+        self.snake_elements.clear()
+        self.snake_elements.append(
+            SnakeElement(pygame.Color('red'), Vector2D(center_x, center_y), Vector2D(0, -self.snake_speed)))
+        for _ in range(6):
+            self.add_next_element()
 
     def add_next_element(self):
         self.snake_elements.append(deepcopy(self.snake_elements[-1]))
@@ -35,9 +38,10 @@ class World:
             tail.position -= Vector2D(0, self.element_size)
         elif tail.velocity.y < 0:
             tail.position += Vector2D(0, self.element_size)
-        tail.colour = pygame.Color('red')
 
     def move_snake_elements(self):
+        if wall_collision(self.snake_elements[0], self.surface_size, self.element_size):
+            self.reset_game()
         for el in self.snake_elements:
             if el.moves_to_make:
                 if el.moves_to_make[0].position == el.position:
