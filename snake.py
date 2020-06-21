@@ -10,3 +10,9 @@ class Move:
     def __init__(self, position, velocity):
         self.position = position
         self.new_velocity = velocity
+
+
+class Egg:
+    def __init__(self, colour, position):
+        self.colour = colour
+        self.position = position

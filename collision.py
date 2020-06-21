@@ -12,3 +12,7 @@ def element_collision(snake_elements):
         if el1.position == el2.position:
             return True
     return False
+
+
+def egg_picked(head, egg):
+    return head.position == egg.position

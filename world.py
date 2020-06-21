@@ -1,6 +1,7 @@
 from copy import deepcopy
 from controls import *
 from collision import *
+import random
 
 
 class World:
@@ -12,24 +13,31 @@ class World:
         self.surface_size = (surface_size, surface_size)
         self.screen = pygame.display.set_mode(self.surface_size)
         self.clock = pygame.time.Clock()
+        self.debug_fps = 60
         self.fps = self.clock.get_fps()
         self.fps_font = pygame.font.SysFont('Comic Sans MS', 10)
         self.snake_colour = pygame.Color('red')
         self.element_size = 20
         self.snake_speed = 2
+        self.egg_colour = pygame.Color('blue')
+        self.egg = Egg
         self.snake_elements = []
         self.pushed_keys = []
         self.reset_game()
 
+    def place_egg(self):
+        pos_x = random.randrange(0, self.surface_size[0], 20)
+        pos_y = random.randrange(0, self.surface_size[1], 20)
+        self.egg = Egg(self.egg_colour, Vector2D(pos_x, pos_y))
+
     def reset_game(self):
-        center = self.surface_size[0] / 2
-        center_x = center_y = center - center % 20
         self.snake_elements.clear()
         self.pushed_keys.clear()
-        self.snake_elements.append(
-            SnakeElement(self.snake_colour, Vector2D(center_x, center_y), Vector2D(0, -self.snake_speed)))
-        for _ in range(6):
-            self.add_next_element()
+        center = self.surface_size[0] / 2
+        center_x = center_y = center - center % 20
+        head = SnakeElement(self.snake_colour, Vector2D(center_x, center_y), Vector2D(0, -self.snake_speed))
+        self.snake_elements.append(head)
+        self.place_egg()
 
     def add_next_element(self):
         self.snake_elements.append(deepcopy(self.snake_elements[-1]))
@@ -48,6 +56,10 @@ class World:
             self.reset_game()
         if element_collision(self.snake_elements):
             self.reset_game()
+        if egg_picked(self.snake_elements[0], self.egg):
+            self.add_next_element()
+            self.place_egg()
+
         for el in self.snake_elements:
             if el.moves_to_make:
                 if el.moves_to_make[0].position == el.position:
@@ -55,16 +67,24 @@ class World:
                     el.moves_to_make.pop(0)
             el.position += el.velocity
 
+    def draw_egg(self):
+        pygame.draw.ellipse(self.screen, self.egg.colour,
+                            (self.egg.position.x, self.egg.position.y, self.element_size - 2, self.element_size - 2))
+
     def draw_snake_elements(self):
-        self.screen.fill((0, 0, 0))
         for el in reversed(self.snake_elements):
             pygame.draw.rect(self.screen, el.colour,
                              (el.position.x, el.position.y, self.element_size - 2, self.element_size - 2))
+
+    def draw(self):
+        self.screen.fill((0, 0, 0))
+        self.draw_egg()
+        self.draw_snake_elements()
         self.display_fps()
         pygame.display.flip()
 
     def display_fps(self):
-        self.clock.tick(60)
+        self.clock.tick(self.debug_fps)
         self.fps = self.clock.get_fps()
         if self.fps == math.inf:
             text_surface = self.fps_font.render('FPS: inf', True, (120, 120, 120))

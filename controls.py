@@ -14,8 +14,22 @@ def check_for_direction_change(world):
             go_right(world)
         elif event.key == pygame.K_LEFT:
             go_left(world)
+
+
         elif event.key == pygame.K_a:
             world.add_next_element()
+        elif event.key == pygame.K_z:
+            debug(world)
+        elif event.key == pygame.K_s:
+            if world.debug_fps == 60:
+                world.debug_fps = 5
+            else:
+                world.debug_fps = 60
+
+
+def debug(world):
+    print("Head: " + str(world.snake_elements[0].position))
+    print("Egg: " + str(world.egg.position))
 
 
 def go_up(world):

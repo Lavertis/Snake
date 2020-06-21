@@ -3,9 +3,10 @@ from world import *
 world = World()
 
 while True:
-    world.draw_snake_elements()
+    world.draw()
     world.move_snake_elements()
     check_for_direction_change(world)
     check_for_user_interaction(world)
 
-#Dodać ramkę dookoła ekranu, zmniejszyć tak, żeby zostało z 20 pikseli dookoła
+#Zaifować, żeny jajko nie mogło pojawić się pod Snakiem
+#Dodać ramkę dookoła ekranu tak z 20 pikseli
