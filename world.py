@@ -46,6 +46,8 @@ class World:
     def move_snake_elements(self):
         if wall_collision(self.snake_elements[0], self.surface_size[0], self.element_size):
             self.reset_game()
+        if element_collision(self.snake_elements):
+            self.reset_game()
         for el in self.snake_elements:
             if el.moves_to_make:
                 if el.moves_to_make[0].position == el.position:
