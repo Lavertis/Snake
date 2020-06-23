@@ -9,4 +9,3 @@ while True:
     check_for_user_interaction(world)
 
 #Zaifować, żeny jajko nie mogło pojawić się pod Snakiem
-#Dodać ramkę dookoła ekranu tak z 20 pikseli
