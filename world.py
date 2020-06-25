@@ -8,7 +8,7 @@ class World:
     def __init__(self):
         pygame.init()
         pygame.display.set_caption('Snake')
-        self.surfaceSize = int(round(pygame.display.Info().current_h * 0.8, -1))
+        self.surfaceSize = int(pygame.display.Info().current_h // 1.3)
         self.surfaceSize -= self.surfaceSize % 20
         self.screen = pygame.display.set_mode((self.surfaceSize, self.surfaceSize))
         self.clock = pygame.time.Clock()
@@ -26,9 +26,9 @@ class World:
         self.reset_game()
 
     def place_egg(self):
-        pos = Vector2D(random.randrange(0, self.surfaceSize, 20), random.randrange(0, self.surfaceSize, 20))
+        pos = Vector2D(random.randrange(0, self.surfaceSize, 20), random.randrange(20, self.surfaceSize, 20))
         while egg_and_snake_collision(self.snakeElements, pos):
-            pos = Vector2D(random.randrange(0, self.surfaceSize, 20), random.randrange(0, self.surfaceSize, 20))
+            pos = Vector2D(random.randrange(0, self.surfaceSize, 20), random.randrange(20, self.surfaceSize, 20))
         self.egg = Egg(pygame.Color('blue'), pos)
 
     def reset_game(self):
@@ -76,42 +76,42 @@ class World:
             el.position += el.velocity
 
     def draw_egg(self):
-        pygame.draw.ellipse(self.screen, self.egg.colour,
-                            (self.egg.position.x, self.egg.position.y, self.snakeElementSize - 2, self.snakeElementSize - 2))
+        pygame.draw.ellipse(self.screen, self.egg.colour, (self.egg.position.x, self.egg.position.y,
+                                                           self.snakeElementSize - 3, self.snakeElementSize - 3))
 
     def draw_snake_elements(self):
         for el in reversed(self.snakeElements):
-            pygame.draw.rect(self.screen, el.colour,
-                             (el.position.x + 1, el.position.y + 1, self.snakeElementSize - 2, self.snakeElementSize - 2))
+            pygame.draw.rect(self.screen, el.colour, (el.position.x + 1, el.position.y + 1,
+                                                      self.snakeElementSize - 2, self.snakeElementSize - 2))
 
     def draw(self):
         self.screen.fill((0, 0, 0))
-        self.display_border()
-        self.draw_egg()
-        self.draw_snake_elements()
+        self.display_bar()
         self.display_fps()
         self.display_score()
         self.display_highscore()
-        pygame.display.flip()
+        self.draw_egg()
+        self.draw_snake_elements()
         self.clock.tick(60)
+        pygame.display.flip()
 
-    def display_border(self):
-        border = self.surfaceSize // 10
+    def display_bar(self):
+        border = self.surfaceSize // 5
         border -= border % 20
-        pygame.draw.rect(self.screen, pygame.Color('brown'), (0, 0, self.surfaceSize, self.surfaceSize), border - 2)
+        pygame.draw.rect(self.screen, (150, 0, 0), (0, 0, self.surfaceSize, 20))
 
     def display_score(self):
-        text_surface = self.font.render('SCORE: ' + str(round(self.score)), True, (120, 120, 120))
-        self.screen.blit(text_surface, (2, 20))
+        text_surface = self.font.render('SCORE: ' + str(round(self.score)), True, (0, 0, 0))
+        self.screen.blit(text_surface, (self.surfaceSize // 2 - self.surfaceSize * 0.05, 0))
 
     def display_highscore(self):
-        text_surface = self.font.render('HIGHSCORE: ' + str(round(self.highScore)), True, (120, 120, 120))
-        self.screen.blit(text_surface, (2, 40))
+        text_surface = self.font.render('HIGHSCORE: ' + str(round(self.highScore)), True, (0, 0, 0))
+        self.screen.blit(text_surface, (self.surfaceSize - self.surfaceSize * 0.155, 0))
 
     def display_fps(self):
         self.fps = self.clock.get_fps()
         if self.fps == math.inf:
             text_surface = self.font.render('FPS: inf', True, (120, 120, 120))
         else:
-            text_surface = self.font.render('FPS: ' + str(round(self.fps)), True, (120, 120, 120))
-        self.screen.blit(text_surface, (2, 0))
+            text_surface = self.font.render('FPS: ' + str(round(self.fps)), True, (0, 0, 0))
+        self.screen.blit(text_surface, (self.surfaceSize * 0.01, 0))
