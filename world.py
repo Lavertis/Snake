@@ -23,6 +23,7 @@ class World:
         self.pushedKeys = []
         self.score = 0
         self.highScore = 0
+        self.paused = False
         self.reset_game()
 
     def place_egg(self):

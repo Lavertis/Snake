@@ -55,21 +55,23 @@ def go_left(world):
             element.moves_to_make.append(Move(change_position_cords, Vector2D(-world.speed, 0)))
 
 
+def pause(world):
+    world.paused = not world.paused
+
+
 def check_for_user_interaction(world):
     keys = {
         pygame.K_UP,
         pygame.K_DOWN,
         pygame.K_RIGHT,
-        pygame.K_LEFT
+        pygame.K_LEFT,
     }
     for event in pygame.event.get():
-        if event.type == pygame.KEYDOWN and len(world.pushedKeys) < 3 and event.key in keys:
-            world.pushedKeys.append(event.key)
+        if event.type == pygame.KEYDOWN:
+            if len(world.pushedKeys) < 3 and event.key in keys:
+                world.pushedKeys.append(event.key)
+            elif event.key == pygame.K_p:
+                pause(world)
         if event.type == pygame.QUIT:
             import sys
             sys.exit()
-        # if event.type == pygame.VIDEORESIZE:
-        #     surface_size = round(event.h, -1)
-        #     surface_size -= surface_size % 20
-        #     world.surface_size = (surface_size, surface_size)
-        #     world.screen = pygame.display.set_mode(world.surface_size, pygame.RESIZABLE)
