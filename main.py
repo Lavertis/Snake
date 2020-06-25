@@ -8,4 +8,4 @@ while True:
     check_for_direction_change(world)
     check_for_user_interaction(world)
 
-#Zaifować, żeny jajko nie mogło pojawić się pod Snakiem
+# elementy znakea dodawane z listy elements to be added, żeby się nie dodawały poza planszę przy szczególnym ustawieniu snakea

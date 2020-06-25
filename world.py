@@ -24,12 +24,12 @@ class World:
         self.score = 0
         self.highScore = 0
         self.reset_game()
-        self.debugFPS = 60
 
     def place_egg(self):
-        pos_x = random.randrange(0, self.surfaceSize, 20)
-        pos_y = random.randrange(0, self.surfaceSize, 20)
-        self.egg = Egg(pygame.Color('blue'), Vector2D(pos_x, pos_y))
+        pos = Vector2D(random.randrange(0, self.surfaceSize, 20), random.randrange(0, self.surfaceSize, 20))
+        while egg_and_snake_collision(self.snakeElements, pos):
+            pos = Vector2D(random.randrange(0, self.surfaceSize, 20), random.randrange(0, self.surfaceSize, 20))
+        self.egg = Egg(pygame.Color('blue'), pos)
 
     def reset_game(self):
         self.snakeElements.clear()
@@ -93,7 +93,7 @@ class World:
         self.display_score()
         self.display_highscore()
         pygame.display.flip()
-        self.clock.tick(self.debugFPS)
+        self.clock.tick(60)
 
     def display_border(self):
         border = self.surfaceSize // 10

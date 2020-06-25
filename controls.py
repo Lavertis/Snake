@@ -4,32 +4,15 @@ from snake import *
 
 
 def check_for_direction_change(world):
+    switcher = {
+        pygame.K_UP: go_up,
+        pygame.K_DOWN: go_down,
+        pygame.K_RIGHT: go_right,
+        pygame.K_LEFT: go_left,
+    }
     if world.pushedKeys and world.snakeElements[0].position % 20 == 0:
-        event = world.pushedKeys.pop(0)
-        if event.key == pygame.K_UP:
-            go_up(world)
-        elif event.key == pygame.K_DOWN:
-            go_down(world)
-        elif event.key == pygame.K_RIGHT:
-            go_right(world)
-        elif event.key == pygame.K_LEFT:
-            go_left(world)
-
-
-        elif event.key == pygame.K_a:
-            world.add_next_element()
-        elif event.key == pygame.K_z:
-            debug(world)
-        elif event.key == pygame.K_s:
-            if world.debugFPS == 60:
-                world.debugFPS = 5
-            else:
-                world.debugFPS = 60
-
-
-def debug(world):
-    print("Head: " + str(world.snakeElements[0].position))
-    print("Egg: " + str(world.egg.position))
+        event_key = world.pushedKeys.pop(0)
+        switcher.get(event_key, lambda x: None)(world)
 
 
 def go_up(world):
@@ -73,9 +56,15 @@ def go_left(world):
 
 
 def check_for_user_interaction(world):
+    keys = {
+        pygame.K_UP,
+        pygame.K_DOWN,
+        pygame.K_RIGHT,
+        pygame.K_LEFT
+    }
     for event in pygame.event.get():
-        if event.type == pygame.KEYDOWN and len(world.pushedKeys) < 3:
-            world.pushedKeys.append(event)
+        if event.type == pygame.KEYDOWN and len(world.pushedKeys) < 3 and event.key in keys:
+            world.pushedKeys.append(event.key)
         if event.type == pygame.QUIT:
             import sys
             sys.exit()
