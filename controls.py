@@ -38,7 +38,7 @@ def go_up(world):
     head = next(element_iterator)
     if head.velocity.y == 0:
         change_position_cords = head.position
-        head.velocity = Vector2D(0, -world.speed)
+        head.velocity.set_values(0, -world.speed)
         for element in element_iterator:
             element.moves_to_make.append(Move(change_position_cords, Vector2D(0, -world.speed)))
 
@@ -48,7 +48,7 @@ def go_down(world):
     head = next(element_iterator)
     if head.velocity.y == 0:
         change_position_cords = head.position
-        head.velocity = Vector2D(0, world.speed)
+        head.velocity.set_values(0, world.speed)
         for element in element_iterator:
             element.moves_to_make.append(Move(change_position_cords, Vector2D(0, world.speed)))
 
@@ -58,7 +58,7 @@ def go_right(world):
     head = next(element_iterator)
     if head.velocity.x == 0:
         change_position_cords = head.position
-        head.velocity = Vector2D(world.speed, 0)
+        head.velocity.set_values(world.speed, 0)
         for element in element_iterator:
             element.moves_to_make.append(Move(change_position_cords, Vector2D(world.speed, 0)))
 
@@ -68,7 +68,7 @@ def go_left(world):
     head = next(element_iterator)
     if head.velocity.x == 0:
         change_position_cords = head.position
-        head.velocity = Vector2D(-world.speed, 0)
+        head.velocity.set_values(-world.speed, 0)
         for element in element_iterator:
             element.moves_to_make.append(Move(change_position_cords, Vector2D(-world.speed, 0)))
 
