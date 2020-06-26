@@ -4,7 +4,7 @@ from snake import *
 
 
 def check_for_user_interaction(world):
-    keys = {
+    direction_keys = {
         pygame.K_UP,
         pygame.K_DOWN,
         pygame.K_RIGHT,
@@ -12,7 +12,7 @@ def check_for_user_interaction(world):
     }
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
-            if len(world.pushedKeys) < 3 and event.key in keys:
+            if len(world.pushedKeys) < 3 and event.key in direction_keys:
                 world.pushedKeys.append(event.key)
             elif event.key == pygame.K_p:
                 pause(world)

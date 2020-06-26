@@ -30,7 +30,7 @@ class World:
         pos = Vector2D(random.randrange(0, self.surfaceSize, 20), random.randrange(20, self.surfaceSize, 20))
         while egg_and_snake_collision(self.snakeElements, pos):
             pos = Vector2D(random.randrange(0, self.surfaceSize, 20), random.randrange(20, self.surfaceSize, 20))
-        self.egg = Egg(pygame.Color('blue'), pos)
+        self.egg = Egg(self.eggColour, pos)
 
     def reset_game(self):
         self.snakeElements.clear()
