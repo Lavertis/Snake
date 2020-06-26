@@ -21,6 +21,7 @@ class World:
         self.egg = Egg(0, 0)
         self.snakeElements = []
         self.pushedKeys = []
+        self.snakeElementsToBeAdded = 0
         self.score = 0
         self.highScore = 0
         self.paused = False
@@ -35,6 +36,7 @@ class World:
     def reset_game(self):
         self.snakeElements.clear()
         self.pushedKeys.clear()
+        self.snakeElementsToBeAdded = 0
         if self.score > self.highScore:
             self.highScore = self.score
         self.score = 0
@@ -58,17 +60,20 @@ class World:
         elif tail.velocity.y < 0:
             tail.position += Vector2D(0, self.snakeElementSize)
 
-    def move_snake_elements(self):
+    def snake_action(self):
+        if self.snakeElements[0].position % 20 == 0 and self.snakeElementsToBeAdded:
+            self.add_next_element()
+            self.snakeElementsToBeAdded -= 1
         if wall_collision(self.snakeElements[0], self.surfaceSize, self.snakeElementSize):
             self.reset_game()
-        if element_collision(self.snakeElements):
+        elif element_collision(self.snakeElements):
             self.reset_game()
-        if egg_picked(self.snakeElements[0], self.egg):
+        elif egg_picked(self.snakeElements[0], self.egg):
             self.score += 1
+            self.snakeElementsToBeAdded += 3
             self.place_egg()
-            for _ in range(3):
-                self.add_next_element()
 
+    def move_snake_elements(self):
         for el in self.snakeElements:
             if el.moves_to_make:
                 if el.moves_to_make[0].position == el.position:
