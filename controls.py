@@ -3,6 +3,24 @@ from vector import *
 from snake import *
 
 
+def check_for_user_interaction(world):
+    keys = {
+        pygame.K_UP,
+        pygame.K_DOWN,
+        pygame.K_RIGHT,
+        pygame.K_LEFT,
+    }
+    for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN:
+            if len(world.pushedKeys) < 3 and event.key in keys:
+                world.pushedKeys.append(event.key)
+            elif event.key == pygame.K_p:
+                pause(world)
+        if event.type == pygame.QUIT:
+            import sys
+            sys.exit()
+
+
 def check_for_direction_change(world):
     switcher = {
         pygame.K_UP: go_up,
@@ -57,21 +75,3 @@ def go_left(world):
 
 def pause(world):
     world.paused = not world.paused
-
-
-def check_for_user_interaction(world):
-    keys = {
-        pygame.K_UP,
-        pygame.K_DOWN,
-        pygame.K_RIGHT,
-        pygame.K_LEFT,
-    }
-    for event in pygame.event.get():
-        if event.type == pygame.KEYDOWN:
-            if len(world.pushedKeys) < 3 and event.key in keys:
-                world.pushedKeys.append(event.key)
-            elif event.key == pygame.K_p:
-                pause(world)
-        if event.type == pygame.QUIT:
-            import sys
-            sys.exit()

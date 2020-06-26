@@ -8,7 +8,7 @@ class World:
     def __init__(self):
         pygame.init()
         pygame.display.set_caption('Snake')
-        self.surfaceSize = int(pygame.display.Info().current_h // 1.3)
+        self.surfaceSize = int(pygame.display.Info().current_h // 1.5)
         self.surfaceSize -= self.surfaceSize % 20
         self.screen = pygame.display.set_mode((self.surfaceSize, self.surfaceSize))
         self.clock = pygame.time.Clock()
@@ -17,12 +17,12 @@ class World:
         self.snakeColour = pygame.Color('red')
         self.eggColour = pygame.Color('blue')
         self.snakeElementSize = 20
-        self.speed = 2
+        self.speed = 2.5
         self.egg = Egg(0, 0)
         self.snakeElements = []
         self.pushedKeys = []
         self.score = 0
-        self.highScore = 0
+        self.highScore = 999
         self.paused = False
         self.reset_game()
 
@@ -38,7 +38,7 @@ class World:
         if self.score > self.highScore:
             self.highScore = self.score
         self.score = 0
-        center = self.surfaceSize / 2
+        center = self.surfaceSize // 2
         center_x = center_y = center - center % 20
         head = SnakeElement(self.snakeColour, Vector2D(center_x, center_y), Vector2D(0, -self.speed))
         self.snakeElements.append(head)
@@ -107,7 +107,7 @@ class World:
 
     def display_highscore(self):
         text_surface = self.font.render('HIGHSCORE: ' + str(round(self.highScore)), True, (0, 0, 0))
-        self.screen.blit(text_surface, (self.surfaceSize - self.surfaceSize * 0.155, 0))
+        self.screen.blit(text_surface, (self.surfaceSize - self.surfaceSize * 0.18, 0))
 
     def display_fps(self):
         self.fps = self.clock.get_fps()
