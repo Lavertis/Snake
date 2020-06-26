@@ -22,7 +22,7 @@ class World:
         self.snakeElements = []
         self.pushedKeys = []
         self.score = 0
-        self.highScore = 999
+        self.highScore = 0
         self.paused = False
         self.reset_game()
 
@@ -107,12 +107,9 @@ class World:
 
     def display_highscore(self):
         text_surface = self.font.render('HIGHSCORE: ' + str(round(self.highScore)), True, (0, 0, 0))
-        self.screen.blit(text_surface, (self.surfaceSize - self.surfaceSize * 0.18, 0))
+        self.screen.blit(text_surface, (self.surfaceSize * 0.01, 0))
 
     def display_fps(self):
         self.fps = self.clock.get_fps()
-        if self.fps == math.inf:
-            text_surface = self.font.render('FPS: inf', True, (120, 120, 120))
-        else:
-            text_surface = self.font.render('FPS: ' + str(round(self.fps)), True, (0, 0, 0))
-        self.screen.blit(text_surface, (self.surfaceSize * 0.01, 0))
+        text_surface = self.font.render('FPS: ' + str(round(self.fps)), True, (0, 0, 0))
+        self.screen.blit(text_surface, (self.surfaceSize - self.surfaceSize * 0.12, 0))
