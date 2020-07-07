@@ -1,7 +1,7 @@
 import random
 from copy import deepcopy
 from collision import *
-from draw import show_end_score
+from draw import display_end_score
 from snake import Egg
 from vector import Vector2D
 
@@ -20,10 +20,10 @@ def snake_action(world):
         add_next_element(world)
         world.snakeElementsToBeAdded -= 1
     if wall_collision(world.snakeElements[0], world.surfaceSize, world.snakeElementSize):
-        show_end_score(world)
+        display_end_score(world)
         world.reset_game()
     elif element_collision(world.snakeElements):
-        show_end_score(world)
+        display_end_score(world)
         world.reset_game()
     elif egg_picked(world.snakeElements[0], world.egg):
         world.score += 1

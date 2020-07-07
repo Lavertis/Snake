@@ -15,16 +15,16 @@ def draw(world):
 
 
 def draw_egg(self):
-    positon_x, positon_y = self.egg.position.x + 1, self.egg.position.y + 1
+    position_x, position_y = self.egg.position.x + 1, self.egg.position.y + 1
     egg_size = self.snakeElementSize - 4
-    pygame.draw.ellipse(self.screen, self.egg.colour, (positon_x, positon_y, egg_size, egg_size))
+    pygame.draw.ellipse(self.screen, self.egg.colour, (position_x, position_y, egg_size, egg_size))
 
 
 def draw_snake_elements(world):
     for element in reversed(world.snakeElements):
-        positon_x, positon_y = element.position.x + 1, element.position.y + 1
+        position_x, position_y = element.position.x + 1, element.position.y + 1
         element_size = world.snakeElementSize - 2
-        pygame.draw.rect(world.screen, element.colour, (positon_x, positon_y, element_size, element_size))
+        pygame.draw.rect(world.screen, element.colour, (position_x, position_y, element_size, element_size))
 
 
 def display_bar(world):
@@ -35,7 +35,7 @@ def display_bar(world):
 
 
 def display_bar_background(world):
-    bar_colour = (150, 0, 0)
+    bar_colour = (160, 0, 0)
     bar_position = (0, 0, world.surfaceSize, 20)
     pygame.draw.rect(world.screen, bar_colour, bar_position)
 
@@ -59,18 +59,27 @@ def display_fps(world):
     world.screen.blit(text_surface, text_position)
 
 
-def show_end_score(world):
+def display_end_score(world):
     world.screen.fill((0, 0, 0))
     display_bar(world)
     center = get_center(world)
-    width, height = world.surfaceSize * 0.5, world.surfaceSize * 0.1
-    pygame.draw.rect(world.screen, (180, 0, 0), (center - width // 2, center - height // 2, width, height))
-    font = pygame.font.SysFont('Comic Sans MS', 36)
-    text_surface = font.render('Your Score: ' + str(round(world.score)), True, (0, 0, 0))
-    text_position = (center - width * 0.325, center - height * 0.35)
-    world.screen.blit(text_surface, text_position)
+    display_end_score_rect(world, center)
+    display_end_score_text(world)
     pygame.display.flip()
     time.sleep(3)
+
+
+def display_end_score_rect(world, center):
+    width, height = world.surfaceSize * 0.5, world.surfaceSize * 0.1
+    rect_position_x, rect_position_y = center - width // 2, center - height // 2
+    pygame.draw.rect(world.screen, (180, 0, 0), (rect_position_x, rect_position_y, width, height))
+
+
+def display_end_score_text(world):
+    font = pygame.font.SysFont('Comic Sans MS', 36)
+    text_surface = font.render('Your Score: ' + str(round(world.score)), True, (0, 0, 0))
+    text_position = (world.surfaceSize * 0.34, world.surfaceSize * 0.465)
+    world.screen.blit(text_surface, text_position)
 
 
 def get_center(world):
