@@ -12,10 +12,10 @@ def check_for_user_interaction(world):
     }
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
-            if len(world.pushedKeys) < 3 and event.key in direction_keys:
-                world.pushedKeys.append(event.key)
-            elif event.key == pygame.K_p:
+            if world.paused or event.key == pygame.K_p:
                 pause(world)
+            if len(world.pushedKeys) < 3 and event.key in direction_keys and not world.paused:
+                world.pushedKeys.append(event.key)
         if event.type == pygame.QUIT:
             import sys
             sys.exit()

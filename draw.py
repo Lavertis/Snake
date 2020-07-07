@@ -1,5 +1,5 @@
 import pygame
-import time
+from controls import pause
 
 pygame.init()
 bar_font = pygame.font.SysFont('Comic Sans MS', 14)
@@ -42,7 +42,7 @@ def display_bar_background(world):
 
 def display_score(world):
     text_surface = bar_font.render('SCORE: ' + str(round(world.score)), True, (0, 0, 0))
-    text_position = (world.surfaceSize // 2 - world.surfaceSize * 0.04, 0)
+    text_position = (world.surfaceSize // 2 - world.surfaceSize * 0.03, 0)
     world.screen.blit(text_surface, text_position)
 
 
@@ -55,7 +55,7 @@ def display_highscore(world):
 def display_fps(world):
     world.fps = world.clock.get_fps()
     text_surface = bar_font.render('FPS: ' + str(round(world.fps)), True, (0, 0, 0))
-    text_position = (world.surfaceSize - world.surfaceSize * 0.12, 0)
+    text_position = (world.surfaceSize - world.surfaceSize * 0.08, 0)
     world.screen.blit(text_surface, text_position)
 
 
@@ -66,7 +66,7 @@ def display_end_score(world):
     display_end_score_rect(world, center)
     display_end_score_text(world)
     pygame.display.flip()
-    time.sleep(3)
+    pause(world)
 
 
 def display_end_score_rect(world, center):
@@ -77,8 +77,8 @@ def display_end_score_rect(world, center):
 
 def display_end_score_text(world):
     font = pygame.font.SysFont('Comic Sans MS', 36)
-    text_surface = font.render('Your Score: ' + str(round(world.score)), True, (0, 0, 0))
-    text_position = (world.surfaceSize * 0.34, world.surfaceSize * 0.465)
+    text_surface = font.render('Your score: ' + str(round(world.score)), True, (0, 0, 0))
+    text_position = (world.surfaceSize * 0.345, world.surfaceSize * 0.465)
     world.screen.blit(text_surface, text_position)
 
 

@@ -6,7 +6,7 @@ from snake import Egg
 from vector import Vector2D
 
 
-def move_snake_elements(self):
+def move(self):
     for element in self.snakeElements:
         if element.moves_to_make:
             if element.moves_to_make[0].position == element.position:
@@ -15,7 +15,7 @@ def move_snake_elements(self):
         element.position += element.velocity
 
 
-def snake_action(world):
+def take_action(world):
     if world.snakeElements[0].position % 20 == 0 and world.snakeElementsToBeAdded:
         add_next_element(world)
         world.snakeElementsToBeAdded -= 1
