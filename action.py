@@ -7,12 +7,12 @@ from vector import Vector2D
 
 
 def move_snake_elements(self):
-    for el in self.snakeElements:
-        if el.moves_to_make:
-            if el.moves_to_make[0].position == el.position:
-                el.velocity = el.moves_to_make[0].new_velocity
-                el.moves_to_make.pop(0)
-        el.position += el.velocity
+    for element in self.snakeElements:
+        if element.moves_to_make:
+            if element.moves_to_make[0].position == element.position:
+                element.velocity = element.moves_to_make[0].new_velocity
+                element.moves_to_make.pop(0)
+        element.position += element.velocity
 
 
 def snake_action(world):
@@ -32,10 +32,10 @@ def snake_action(world):
 
 
 def place_egg(world):
-    pos = Vector2D(random.randrange(0, world.surfaceSize, 20), random.randrange(20, world.surfaceSize, 20))
-    while egg_and_snake_collision(world.snakeElements, pos):
-        pos = Vector2D(random.randrange(0, world.surfaceSize, 20), random.randrange(20, world.surfaceSize, 20))
-    world.egg = Egg(world.eggColour, pos)
+    position = Vector2D(random.randrange(0, world.surfaceSize, 20), random.randrange(20, world.surfaceSize, 20))
+    while egg_and_snake_collision(world.snakeElements, position):
+        position = Vector2D(random.randrange(0, world.surfaceSize, 20), random.randrange(20, world.surfaceSize, 20))
+    world.egg = Egg(world.eggColour, position)
 
 
 def add_next_element(world):

@@ -6,8 +6,7 @@ from draw import get_center
 class World:
     def __init__(self):
         pygame.display.set_caption('Snake')
-        self.surfaceSize = int(pygame.display.Info().current_h // 1.5)
-        self.surfaceSize -= self.surfaceSize % 20
+        self.surfaceSize = get_surface_size()
         self.screen = pygame.display.set_mode((self.surfaceSize, self.surfaceSize))
         self.clock = pygame.time.Clock()
         self.fps = self.clock.get_fps()
@@ -15,7 +14,7 @@ class World:
         self.eggColour = pygame.Color('blue')
         self.snakeElementSize = 20
         self.speed = 4
-        self.egg = Egg(0, 0)
+        self.egg = Egg
         self.snakeElements = []
         self.pushedKeys = []
         self.snakeElementsToBeAdded = 0
@@ -25,15 +24,21 @@ class World:
         self.reset_game()
 
     def reset_game(self):
-        self.snakeElements.clear()
-        self.pushedKeys.clear()
-        self.snakeElementsToBeAdded = 0
         if self.score > self.highScore:
             self.highScore = self.score
         self.score = 0
+        self.snakeElementsToBeAdded = 0
+        self.snakeElements.clear()
+        self.pushedKeys.clear()
         center = get_center(self)
         head = SnakeElement(self.snakeColour, Vector2D(center, center), Vector2D(0, -self.speed))
         self.snakeElements.append(head)
         for _ in range(2):
             add_next_element(self)
         place_egg(self)
+
+
+def get_surface_size():
+    surface_size = int(pygame.display.Info().current_h // 1.5)
+    surface_size -= surface_size % 20
+    return surface_size
