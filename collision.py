@@ -1,6 +1,3 @@
-import itertools
-
-
 def wall_collision(head, border, s):
     if head.position.x < 0 or head.position.y < 0 + s or head.position.x + s > border or head.position.y + s > border:
         return True
@@ -8,8 +5,10 @@ def wall_collision(head, border, s):
 
 
 def element_collision(snake_elements):
-    for el1, el2 in itertools.combinations(snake_elements, 2):
-        if el1.position == el2.position:
+    element_iterator = iter(snake_elements)
+    head = next(element_iterator)
+    for el in element_iterator:
+        if head.position == el.position:
             return True
     return False
 

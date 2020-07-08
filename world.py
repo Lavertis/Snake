@@ -33,7 +33,7 @@ class World:
         center = get_center(self)
         head = SnakeElement(self.snakeColour, Vector2D(center, center), Vector2D(0, -self.speed))
         self.snakeElements.append(head)
-        for _ in range(2):
+        for _ in range(2000):
             add_next_element(self)
         place_egg(self)
 
