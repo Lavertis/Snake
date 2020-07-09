@@ -1,4 +1,5 @@
 import pygame
+import time
 from controls import pause
 
 pygame.init()
@@ -10,7 +11,7 @@ def draw(world):
     display_bar(world)
     draw_egg(world)
     draw_snake_elements(world)
-    world.clock.tick(60)
+    world.clock.tick(120)
     pygame.display.flip()
 
 
@@ -55,7 +56,7 @@ def display_highscore(world):
 def display_fps(world):
     world.fps = world.clock.get_fps()
     text_surface = bar_font.render('FPS: ' + str(round(world.fps)), True, (0, 0, 0))
-    text_position = (world.surfaceSize - world.surfaceSize * 0.08, 0)
+    text_position = (world.surfaceSize - world.surfaceSize * 0.085, 0)
     world.screen.blit(text_surface, text_position)
 
 
@@ -66,6 +67,8 @@ def display_end_score(world):
     display_end_score_rect(world, center)
     display_end_score_text(world)
     pygame.display.flip()
+    time.sleep(0.3)
+    pygame.event.clear()
     pause(world)
 
 

@@ -13,7 +13,7 @@ class World:
         self.snakeColour = pygame.Color('red')
         self.eggColour = pygame.Color('blue')
         self.snakeElementSize = 20
-        self.speed = 4
+        self.speed = 2.5
         self.egg = Egg
         self.snakeElements = []
         self.pushedKeys = []
