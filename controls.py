@@ -28,7 +28,7 @@ def check_for_direction_change(world):
         pygame.K_RIGHT: go_right,
         pygame.K_LEFT: go_left,
     }
-    if world.pushedKeys and world.snakeElements[0].position % 20 == 0:
+    if world.pushedKeys:
         event_key = world.pushedKeys.pop(0)
         switcher.get(event_key, lambda x: None)(world)
 
@@ -38,9 +38,9 @@ def go_up(world):
     head = next(element_iterator)
     if head.velocity.y == 0:
         change_position_cords = head.position
-        head.velocity.set_values(0, -world.speed)
+        head.velocity.set_values(0, -1)
         for element in element_iterator:
-            element.moves_to_make.append(Move(change_position_cords, Vector2D(0, -world.speed)))
+            element.moves_to_make.append(Move(change_position_cords, Vector2D(0, -1)))
 
 
 def go_down(world):
@@ -48,9 +48,9 @@ def go_down(world):
     head = next(element_iterator)
     if head.velocity.y == 0:
         change_position_cords = head.position
-        head.velocity.set_values(0, world.speed)
+        head.velocity.set_values(0, 1)
         for element in element_iterator:
-            element.moves_to_make.append(Move(change_position_cords, Vector2D(0, world.speed)))
+            element.moves_to_make.append(Move(change_position_cords, Vector2D(0, 1)))
 
 
 def go_right(world):
@@ -58,9 +58,9 @@ def go_right(world):
     head = next(element_iterator)
     if head.velocity.x == 0:
         change_position_cords = head.position
-        head.velocity.set_values(world.speed, 0)
+        head.velocity.set_values(1, 0)
         for element in element_iterator:
-            element.moves_to_make.append(Move(change_position_cords, Vector2D(world.speed, 0)))
+            element.moves_to_make.append(Move(change_position_cords, Vector2D(1, 0)))
 
 
 def go_left(world):
@@ -68,9 +68,9 @@ def go_left(world):
     head = next(element_iterator)
     if head.velocity.x == 0:
         change_position_cords = head.position
-        head.velocity.set_values(-world.speed, 0)
+        head.velocity.set_values(-1, 0)
         for element in element_iterator:
-            element.moves_to_make.append(Move(change_position_cords, Vector2D(-world.speed, 0)))
+            element.moves_to_make.append(Move(change_position_cords, Vector2D(-1, 0)))
 
 
 def pause(world):

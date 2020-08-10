@@ -1,6 +1,5 @@
 from controls import *
 from action import *
-from draw import get_center
 
 
 class World:
@@ -12,8 +11,9 @@ class World:
         self.fps = self.clock.get_fps()
         self.snakeColour = pygame.Color('red')
         self.eggColour = pygame.Color('blue')
-        self.snakeElementSize = 20
-        self.speed = 2.5
+        self.mapSize = 30
+        self.snakeElementSize = self.surfaceSize / self.mapSize
+        self.speed = 0.2
         self.egg = Egg
         self.snakeElements = []
         self.pushedKeys = []
@@ -30,8 +30,8 @@ class World:
         self.snakeElementsToBeAdded = 0
         self.snakeElements.clear()
         self.pushedKeys.clear()
-        center = get_center(self)
-        head = SnakeElement(self.snakeColour, Vector2D(center, center), Vector2D(0, -self.speed))
+        center = self.mapSize // 2
+        head = SnakeElement(self.snakeColour, Vector2D(center, center), Vector2D(0, -1))
         self.snakeElements.append(head)
         for _ in range(2):
             add_next_element(self)

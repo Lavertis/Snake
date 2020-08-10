@@ -29,8 +29,8 @@ class Vector2D:
     def __neg__(self):
         return Vector2D(-self.x, -self.y)
 
-    def __mod__(self, p):
-        return not (self.x % p == 0 and self.y % p == 0)
+    # def __mod__(self, p):
+    #     return not (self.x % p == 0 and self.y % p == 0)
 
     def __mul__(self, scalar):
         return Vector2D(self.x * scalar, self.y * scalar)
