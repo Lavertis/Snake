@@ -32,7 +32,7 @@ def check_for_direction_change(world):
     }
     if world.pushedKeys:
         event_key = world.pushedKeys.pop(0)
-        switcher.get(event_key, lambda x: None)(world)
+        switcher.get(event_key)(world)
 
 
 def go_up(world):
