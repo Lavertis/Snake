@@ -59,6 +59,10 @@ def place_egg(world):
 def add_next_element(world):
     world.snakeElements.append(deepcopy(world.snakeElements[-1]))
     tail = world.snakeElements[-1]
+
+    if tail.colour[2] <= 250:
+        tail.colour[2] = tail.colour[2] + 1
+
     if tail.velocity.x > 0:
         tail.position -= Vector2D(1, 0)
     elif tail.velocity.x < 0:
