@@ -1,5 +1,3 @@
-from threading import Lock
-
 from action import *
 from controls import *
 
@@ -24,7 +22,6 @@ class World:
         self.highScore = 0
         self.game_paused = False
         self.drawing_paused = False
-        self.lock = Lock()
         self.reset_game()
 
     def reset_game(self):

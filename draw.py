@@ -72,7 +72,7 @@ def display_end_score(world):
     display_end_score_rect(world, world.surfaceSize // 2)
     display_end_score_text(world)
     pygame.display.flip()
-    time.sleep(3)
+    time.sleep(0.3)
     pause_game(world)
     pause_drawing(world)
     pygame.event.clear()
