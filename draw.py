@@ -89,9 +89,3 @@ def display_end_score_text(world):
     text_surface = font.render('Your score: ' + str(round(world.score)), True, (0, 0, 0))
     text_position = (world.surfaceSize * 0.345, world.surfaceSize * 0.465)
     world.screen.blit(text_surface, text_position)
-
-
-def get_center(world):
-    center = world.mapSize // 2
-    center -= - center % 20
-    return center
