@@ -1,5 +1,7 @@
-import pygame
 import time
+
+import pygame
+
 from controls import pause_game, pause_drawing
 
 pygame.init()

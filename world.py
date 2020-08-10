@@ -1,7 +1,7 @@
 from threading import Lock
 
-from controls import *
 from action import *
+from controls import *
 
 
 class World:

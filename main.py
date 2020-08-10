@@ -1,6 +1,7 @@
+from threading import Thread
+
 from draw import draw
 from world import *
-from threading import Thread
 
 world = World()
 

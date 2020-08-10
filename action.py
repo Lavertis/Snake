@@ -1,11 +1,12 @@
 import random
 from copy import deepcopy
+from time import sleep
+
 from collision import *
 from controls import check_for_direction_change, pause_drawing
 from draw import display_end_score
 from snake import Egg
 from vector import Vector2D
-from time import sleep
 
 
 def manage_movement(world):

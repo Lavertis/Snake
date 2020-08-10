@@ -1,6 +1,7 @@
 import pygame
-from vector import *
+
 from snake import *
+from vector import *
 
 
 def check_for_user_interaction(world):
