@@ -1,19 +1,20 @@
 import pygame
 import time
-from controls import pause
+from controls import pause_game, pause_drawing
 
 pygame.init()
-bar_font = pygame.font.SysFont('Comic Sans MS', 18)
+bar_font = pygame.font.SysFont('Comic Sans MS', 19)
 
 
 def draw(world):
     while True:
-        world.screen.fill((0, 0, 0))
-        display_bar(world)
-        draw_egg(world)
-        draw_snake_elements(world)
-        world.clock.tick(60)
-        pygame.display.flip()
+        if not world.drawing_paused:
+            world.screen.fill((0, 0, 0))
+            display_bar(world)
+            draw_egg(world)
+            draw_snake_elements(world)
+            world.clock.tick(60)
+            pygame.display.flip()
 
 
 def draw_egg(world):
@@ -59,20 +60,20 @@ def display_highscore(world):
 def display_fps(world):
     world.fps = world.clock.get_fps()
     text_surface = bar_font.render('FPS: ' + str(round(world.fps)), True, (0, 0, 0))
-    text_position = (world.surfaceSize - world.surfaceSize * 0.1, 0)
+    text_position = (world.surfaceSize - world.surfaceSize * 0.105, 0)
     world.screen.blit(text_surface, text_position)
 
 
 def display_end_score(world):
     world.screen.fill((0, 0, 0))
     display_bar(world)
-    center = get_center(world)
-    display_end_score_rect(world, center)
+    display_end_score_rect(world, world.surfaceSize // 2)
     display_end_score_text(world)
     pygame.display.flip()
-    time.sleep(0.3)
+    time.sleep(3)
+    pause_game(world)
+    pause_drawing(world)
     pygame.event.clear()
-    # pause(world)
 
 
 def display_end_score_rect(world, center):

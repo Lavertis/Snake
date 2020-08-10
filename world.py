@@ -1,3 +1,5 @@
+from threading import Lock
+
 from controls import *
 from action import *
 
@@ -11,16 +13,18 @@ class World:
         self.fps = self.clock.get_fps()
         self.snakeColour = pygame.Color('red')
         self.eggColour = pygame.Color('blue')
-        self.mapSize = 30
+        self.mapSize = 25
         self.snakeElementSize = self.surfaceSize / self.mapSize
-        self.speed = 0.2
+        self.speed = 0.15
         self.egg = Egg
         self.snakeElements = []
         self.pushedKeys = []
         self.snakeElementsToBeAdded = 0
         self.score = 0
         self.highScore = 0
-        self.paused = False
+        self.game_paused = False
+        self.drawing_paused = False
+        self.lock = Lock()
         self.reset_game()
 
     def reset_game(self):

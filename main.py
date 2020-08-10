@@ -12,4 +12,4 @@ drawing_thread.start()
 
 while True:
     check_for_user_interaction(world)
-    sleep(0.001)
+    sleep(0.002)

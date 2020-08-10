@@ -12,9 +12,10 @@ def check_for_user_interaction(world):
     }
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
-            if world.paused or event.key == pygame.K_p:
-                pause(world)
-            if len(world.pushedKeys) < 3 and event.key in direction_keys and not world.paused:
+            if world.game_paused or event.key == pygame.K_p:
+                pause_game(world)
+                pause_drawing(world)
+            if len(world.pushedKeys) < 3 and event.key in direction_keys and not world.game_paused:
                 world.pushedKeys.append(event.key)
         if event.type == pygame.QUIT:
             import sys
@@ -73,5 +74,9 @@ def go_left(world):
             element.moves_to_make.append(Move(change_position_cords, Vector2D(-1, 0)))
 
 
-def pause(world):
-    world.paused = not world.paused
+def pause_drawing(world):
+    world.drawing_paused = not world.drawing_paused
+
+
+def pause_game(world):
+    world.game_paused = not world.game_paused

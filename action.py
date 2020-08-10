@@ -1,7 +1,7 @@
 import random
 from copy import deepcopy
 from collision import *
-from controls import check_for_direction_change
+from controls import check_for_direction_change, pause_drawing
 from draw import display_end_score
 from snake import Egg
 from vector import Vector2D
@@ -10,10 +10,13 @@ from time import sleep
 
 def manage_movement(world):
     while True:
-        sleep(world.speed)
-        check_for_direction_change(world)
-        move(world)
-        take_action(world)
+        if not world.game_paused:
+            sleep(world.speed)
+            pause_drawing(world)
+            check_for_direction_change(world)
+            move(world)
+            take_action(world)
+            pause_drawing(world)
 
 
 def move(self):
