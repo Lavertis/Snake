@@ -1,5 +1,5 @@
 def wall_collision(head, map_size):
-    if head.position.x < 0 or head.position.y < 1 or head.position.x > map_size or head.position.y > map_size:
+    if head.position.x < 0 or head.position.y < 1 or head.position.x > map_size - 1 or head.position.y > map_size - 1:
         return True
     return False
 
