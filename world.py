@@ -40,6 +40,4 @@ class World:
 
 
 def get_surface_size():
-    surface_size = int(pygame.display.Info().current_h // 1.5)
-    surface_size -= surface_size % 20
-    return surface_size
+    return int(pygame.display.Info().current_h // 1.5)
