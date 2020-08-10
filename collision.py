@@ -1,10 +1,10 @@
-def wall_collision(head, border, s):
-    if head.position.x < 0 or head.position.y < 0 + s or head.position.x + s > border or head.position.y + s > border:
+def wall_collision(head, map_size):
+    if head.position.x < 0 or head.position.y < 1 or head.position.x > map_size or head.position.y > map_size:
         return True
     return False
 
 
-def element_collision(snake_elements):
+def itself_collision(snake_elements):
     element_iterator = iter(snake_elements)
     head = next(element_iterator)
     for el in element_iterator:

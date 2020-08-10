@@ -12,9 +12,10 @@ def check_for_user_interaction(world):
     }
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
-            if world.paused or event.key == pygame.K_p:
-                pause(world)
-            if len(world.pushedKeys) < 3 and event.key in direction_keys and not world.paused:
+            if world.game_paused or event.key == pygame.K_p:
+                pause_game(world)
+                pause_drawing(world)
+            if len(world.pushedKeys) < 3 and event.key in direction_keys and not world.game_paused:
                 world.pushedKeys.append(event.key)
         if event.type == pygame.QUIT:
             import sys
@@ -28,7 +29,7 @@ def check_for_direction_change(world):
         pygame.K_RIGHT: go_right,
         pygame.K_LEFT: go_left,
     }
-    if world.pushedKeys and world.snakeElements[0].position % 20 == 0:
+    if world.pushedKeys:
         event_key = world.pushedKeys.pop(0)
         switcher.get(event_key, lambda x: None)(world)
 
@@ -38,9 +39,9 @@ def go_up(world):
     head = next(element_iterator)
     if head.velocity.y == 0:
         change_position_cords = head.position
-        head.velocity.set_values(0, -world.speed)
+        head.velocity.set_values(0, -1)
         for element in element_iterator:
-            element.moves_to_make.append(Move(change_position_cords, Vector2D(0, -world.speed)))
+            element.moves_to_make.append(Move(change_position_cords, Vector2D(0, -1)))
 
 
 def go_down(world):
@@ -48,9 +49,9 @@ def go_down(world):
     head = next(element_iterator)
     if head.velocity.y == 0:
         change_position_cords = head.position
-        head.velocity.set_values(0, world.speed)
+        head.velocity.set_values(0, 1)
         for element in element_iterator:
-            element.moves_to_make.append(Move(change_position_cords, Vector2D(0, world.speed)))
+            element.moves_to_make.append(Move(change_position_cords, Vector2D(0, 1)))
 
 
 def go_right(world):
@@ -58,9 +59,9 @@ def go_right(world):
     head = next(element_iterator)
     if head.velocity.x == 0:
         change_position_cords = head.position
-        head.velocity.set_values(world.speed, 0)
+        head.velocity.set_values(1, 0)
         for element in element_iterator:
-            element.moves_to_make.append(Move(change_position_cords, Vector2D(world.speed, 0)))
+            element.moves_to_make.append(Move(change_position_cords, Vector2D(1, 0)))
 
 
 def go_left(world):
@@ -68,10 +69,14 @@ def go_left(world):
     head = next(element_iterator)
     if head.velocity.x == 0:
         change_position_cords = head.position
-        head.velocity.set_values(-world.speed, 0)
+        head.velocity.set_values(-1, 0)
         for element in element_iterator:
-            element.moves_to_make.append(Move(change_position_cords, Vector2D(-world.speed, 0)))
+            element.moves_to_make.append(Move(change_position_cords, Vector2D(-1, 0)))
 
 
-def pause(world):
-    world.paused = not world.paused
+def pause_drawing(world):
+    world.drawing_paused = not world.drawing_paused
+
+
+def pause_game(world):
+    world.game_paused = not world.game_paused
