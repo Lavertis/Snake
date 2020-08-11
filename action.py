@@ -40,7 +40,7 @@ def take_action(world):
         world.reset_game()
     elif egg_picked(world.snakeElements[0], world.egg):
         world.score += 1
-        world.snakeElementsToBeAdded += 3
+        world.snakeElementsToBeAdded += 1
         place_egg(world)
 
 
