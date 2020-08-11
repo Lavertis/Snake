@@ -1,5 +1,8 @@
-from action import *
-from controls import *
+import pygame
+
+from action import add_next_element, place_egg
+from snake import SnakeElement, Egg
+from vector import Vector2D
 
 
 class World:
@@ -7,21 +10,18 @@ class World:
         pygame.display.set_caption('Snake')
         self.surfaceSize = get_surface_size()
         self.screen = pygame.display.set_mode((self.surfaceSize, self.surfaceSize))
-        self.clock = pygame.time.Clock()
-        self.fps = self.clock.get_fps()
         self.snakeColour = pygame.Color('red')
         self.eggColour = pygame.Color('blue')
-        self.mapSize = 25
-        self.snakeElementSize = self.surfaceSize / self.mapSize
-        self.speed = 0.15
+        self.mapSize = 20
+        self.snakeElementSize = self.surfaceSize / self.mapSize - 4
+        self.speed = 0.125
         self.egg = Egg
         self.snakeElements = []
         self.pushedKeys = []
         self.snakeElementsToBeAdded = 0
         self.score = 0
         self.highScore = 0
-        self.game_paused = False
-        self.drawing_paused = False
+        self.paused = False
         self.reset_game()
 
     def reset_game(self):

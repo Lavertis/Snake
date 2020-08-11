@@ -1,15 +1,14 @@
 from threading import Thread
+from time import sleep
 
-from draw import draw
-from world import *
+from action import move_and_draw
+from controls import check_for_user_interaction
+from world import World
 
 world = World()
 
-movement_thread = Thread(target=manage_movement, args=(world,), daemon=True)
-movement_thread.start()
-
-drawing_thread = Thread(target=draw, args=(world,), daemon=True)
-drawing_thread.start()
+move_and_draw_thread = Thread(target=move_and_draw, args=(world,), daemon=True)
+move_and_draw_thread.start()
 
 while True:
     check_for_user_interaction(world)

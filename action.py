@@ -3,21 +3,20 @@ from copy import deepcopy
 from time import sleep
 
 from collision import *
-from controls import check_for_direction_change, pause_drawing
-from draw import display_end_score
+from controls import check_for_direction_change
+from draw import display_end_score, draw
 from snake import Egg
 from vector import Vector2D
 
 
-def manage_movement(world):
+def move_and_draw(world):
     while True:
-        if not world.game_paused:
+        if not world.paused:
             sleep(world.speed)
-            pause_drawing(world)
             check_for_direction_change(world)
             move(world)
+            draw(world)
             take_action(world)
-            pause_drawing(world)
 
 
 def move(self):
@@ -60,7 +59,7 @@ def add_next_element(world):
     world.snakeElements.append(deepcopy(world.snakeElements[-1]))
     tail = world.snakeElements[-1]
 
-    if tail.colour[2] <= 250:
+    if tail.colour[2] < 255:
         tail.colour[2] = tail.colour[2] + 1
 
     if tail.velocity.x > 0:
