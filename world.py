@@ -24,7 +24,8 @@ class World:
         self.highScore = 0
         self.paused = True
         self.reset_game()
-        draw(self)
+        s = self
+        draw(s.screen, s.surfaceSize, s.mapSize, s.score, s.highScore, s.egg, s.snakeElementSize, s.snakeElements)
 
     def reset_game(self):
         if self.score > self.highScore:
@@ -37,7 +38,7 @@ class World:
         head = SnakeElement(self.snakeColour, Vector2D(center, center), Vector2D(0, -1))
         self.snakeElements.append(head)
         for _ in range(2):
-            add_next_element(self)
+            add_next_element(self.snakeElements)
         place_egg(self)
 
 

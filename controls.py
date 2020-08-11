@@ -22,20 +22,20 @@ def check_for_user_interaction(world):
             sys.exit()
 
 
-def check_for_direction_change(world):
+def check_for_direction_change(pushedKeys, snakeElements):
     switcher = {
         pygame.K_UP: go_up,
         pygame.K_DOWN: go_down,
         pygame.K_RIGHT: go_right,
         pygame.K_LEFT: go_left,
     }
-    if world.pushedKeys:
-        event_key = world.pushedKeys.pop(0)
-        switcher.get(event_key)(world)
+    if pushedKeys:
+        event_key = pushedKeys.pop(0)
+        switcher.get(event_key)(snakeElements)
 
 
-def go_up(world):
-    element_iterator = iter(world.snakeElements)
+def go_up(snakeElements):
+    element_iterator = iter(snakeElements)
     head = next(element_iterator)
     if head.velocity.y == 0:
         change_position_cords = head.position
@@ -44,8 +44,8 @@ def go_up(world):
             element.moves_to_make.append(Move(change_position_cords, Vector2D(0, -1)))
 
 
-def go_down(world):
-    element_iterator = iter(world.snakeElements)
+def go_down(snakeElements):
+    element_iterator = iter(snakeElements)
     head = next(element_iterator)
     if head.velocity.y == 0:
         change_position_cords = head.position
@@ -54,8 +54,8 @@ def go_down(world):
             element.moves_to_make.append(Move(change_position_cords, Vector2D(0, 1)))
 
 
-def go_right(world):
-    element_iterator = iter(world.snakeElements)
+def go_right(snakeElements):
+    element_iterator = iter(snakeElements)
     head = next(element_iterator)
     if head.velocity.x == 0:
         change_position_cords = head.position
@@ -64,8 +64,8 @@ def go_right(world):
             element.moves_to_make.append(Move(change_position_cords, Vector2D(1, 0)))
 
 
-def go_left(world):
-    element_iterator = iter(world.snakeElements)
+def go_left(snakeElements):
+    element_iterator = iter(snakeElements)
     head = next(element_iterator)
     if head.velocity.x == 0:
         change_position_cords = head.position
