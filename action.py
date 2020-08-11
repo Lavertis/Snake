@@ -12,8 +12,8 @@ from vector import Vector2D
 def move_and_draw(world):
     w = world
     while True:
+        sleep(w.speed)
         if not world.paused:
-            sleep(w.speed)
             check_for_direction_change(w.pushedKeys, w.snakeElements)
             move(w.snakeElements)
             draw(w.screen, w.surfaceSize, w.mapSize, w.score, w.highScore, w.egg, w.snakeElementSize, w.snakeElements)
