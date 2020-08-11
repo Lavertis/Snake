@@ -1,6 +1,7 @@
 import pygame
 
 from action import add_next_element, place_egg
+from draw import draw
 from snake import SnakeElement, Egg
 from vector import Vector2D
 
@@ -21,8 +22,9 @@ class World:
         self.snakeElementsToBeAdded = 0
         self.score = 0
         self.highScore = 0
-        self.paused = False
+        self.paused = True
         self.reset_game()
+        draw(self)
 
     def reset_game(self):
         if self.score > self.highScore:
