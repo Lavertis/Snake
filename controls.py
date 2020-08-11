@@ -1,15 +1,7 @@
-from time import sleep
-
 import pygame
 
 from snake import Move
 from vector import Vector2D
-
-
-def manage_controls(world):
-    while True:
-        check_for_user_interaction(world)
-        sleep(0.002)
 
 
 def check_for_user_interaction(world):
